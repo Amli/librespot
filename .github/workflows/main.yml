@@ -4,20 +4,21 @@ on: [push]
 
 jobs:
   build:
-    strategy:
-      matrix:
-        toolchain: [1.33.0, stable, beta, nightly]
-        target: [armv7-unknown-linux-gnueabihf, ]
-        features: [with-tremor, with-vorbis, alsa-backend, portaudio-backend, pulseaudio-backend, jackaudio-backend, rodio-backend, sdl-backend]
+#    strategy:
+#      matrix:
+#        toolchain: [1.33.0, stable, beta, nightly]
+#        toolchain: [stable, nightly]
+#        target: [armv7-unknown-linux-gnueabihf, ]
+#        features: [with-tremor, with-vorbis, alsa-backend, portaudio-backend, pulseaudio-backend, jackaudio-backend, rodio-backend, sdl-backend]
 
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: ${{ matrix.toolchain }}
-          target: ${{ matrix.target }}
-          override: true
+ #     - uses: actions-rs/toolchain@v1
+ #       with:
+#          toolchain: ${{ matrix.toolchain }}
+#          target: ${{ matrix.target }}
+#          override: true
       - uses: actions-rs/cargo@v1
         with:
           command: build
