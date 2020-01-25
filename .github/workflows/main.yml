@@ -27,7 +27,7 @@ jobs:
 #          target: ${{ matrix.target }}
 #          override: true
       - uses: actions/checkout@v2
-      - run: sudo apt-get install -y gcc-arm-linux-gnueabihf libc6-dev-armhf-cross libpulse-dev portaudio19-dev libasound2-dev libsdl2-dev
+      - run: sudo apt-get update && sudo apt-get install -y gcc-arm-linux-gnueabihf libc6-dev-armhf-cross libpulse-dev portaudio19-dev libasound2-dev libsdl2-dev
       - uses: actions-rs/cargo@v1
         with:
           command: build
