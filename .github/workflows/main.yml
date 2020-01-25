@@ -12,23 +12,34 @@ jobs:
           command: fmt
           arguments: --all -- --check
   build:
-#    strategy:
-#      matrix:
-#        toolchain: [1.33.0, stable, beta, nightly]
+    strategy:
+      matrix:
+        toolchain: [1.33.0, stable, beta, nightly]
 #        target: [armv7-unknown-linux-gnueabihf, ]
 #        features: [with-tremor, with-vorbis, alsa-backend, portaudio-backend, pulseaudio-backend, jackaudio-backend, rodio-backend, sdl-backend]
 
     runs-on: ubuntu-latest
 
     steps:
-#      - uses: actions-rs/toolchain@v1
-#        with:
-#          toolchain: ${{ matrix.toolchain }}
-#          target: ${{ matrix.target }}
-#          override: true
+      - name: "Install rust toolchain"
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          override: true
+
       - uses: actions/checkout@v2
-      - run: sudo apt-get update && sudo apt-get install -y gcc-arm-linux-gnueabihf libc6-dev-armhf-cross libpulse-dev portaudio19-dev libasound2-dev libsdl2-dev
-      - uses: actions-rs/cargo@v1
+
+      - name: "Install system dependencies"
+        run: sudo apt-get update && sudo apt-get install -y gcc-arm-linux-gnueabihf libc6-dev-armhf-cross libpulse-dev portaudio19-dev libasound2-dev libsdl2-dev
+        
+      - name: "Build with with-tremor"
+        uses: actions-rs/cargo@v1
         with:
           command: build
-          arguments: --no-default-features
+          arguments: --no-default-features --features "with-tremor"
+
+      - name: "Build with alsa-backend"
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          arguments: --no-default-features --features "alsa-backend"
